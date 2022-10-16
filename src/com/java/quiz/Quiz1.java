@@ -18,8 +18,12 @@ public class Quiz1 {
     		if(P==1){
     			
     			
-    			 
-    	     	
+    			 System.out.println("Please Enter USERNAME");
+				 Scanner sc2=new Scanner(System.in);
+				 String username = sc2.nextLine();
+				 System.out.println("Please Enter password");
+				 Scanner sc3=new Scanner(System.in);
+				 String password = sc3.nextLine();
     		
     		//	 System.out.println("Please Enter PASSWORD");
     		//	 String password = sc.nextLine();
@@ -28,74 +32,63 @@ public class Quiz1 {
     				try {
    					Class.forName("com.mysql.cj.jdbc.Driver");
    					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
-   					Statement stmt = conn.createStatement();
-   					ResultSet rs = stmt.executeQuery("SELECT * FROM USERINFO");
-  					 System.out.println("Please Enter USERNAME");
-  					 Scanner sc2=new Scanner(System.in);
-  	    			 String username = sc2.nextLine();
-   					//Print Here Username And Password
+   					PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERINFO WHERE USERNAME LIKE ?");
+   					stmt.setString(1,username);
+   					ResultSet rs = stmt.executeQuery();
    					while(rs.next()) {
-   					  T = rs.getString(2);
-   				    // System.out.println(T);
-   			
+   						String UI = rs.getString(2);
+   						String PASS = rs.getString(3);
+   						System.out.println("from database -" + UI); 
+   	   					System.out.println("from database -" + PASS);
+   	   					System.out.println("from user -" + username);
+   	   					System.out.println("from user -" + password);
+   	   					if ((UI.equals(username)) && (PASS.equals(password))){
+   	   					System.out.println("Successfully LogIn With Uername :" + UI); 
+   	   					}else {
+   						System.out.println("Invalid Username,Passowrd OR Not A Registereg Candidate");
+   	   					}
        }
-   					for(int j=1;j<=T.length();j++) {
-   						System.out.println(T);
-   					 if(T==username) {
-  					  // System.out.println("Successfully LogIn ....");
-  				                  }else {
-  					  // System.out.println("Invalid Username,Passowrd OR Not A Registereg Candidate");
-  					}
-   						
-   					}
-   				
-    				  
-  
-    				
+   					
     				conn.close();
  }   				
     			 catch(Exception e) {
     				 e.printStackTrace();
     				 
     			 }
-    			 
-    		 
-  			
-    			
     		}else {
     			
     			System.out.println("Register Here : ");
-//    			try {
-//					Class.forName("com.mysql.cj.jdbc.Driver");
-//					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
-//					PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERINFO(FULLNAME,USERNAME,PASSWORD)VALUES(?,?,?)");
-//					System.out.println("Enter the number of Students");
-//					int p1 = sc.nextInt();
-//					for(int i=1;i<=p1;i++) {
-//						//Scanner sc2= new Scanner(System.in);
-//						String c2 = sc.nextLine();
-//						String c3= sc.nextLine();
-//						String c4 = sc.nextLine();
-//					
-//						stmt.setString(1, c2);
-//						stmt.setString(2, c3);
-//						stmt.setString(3, c4);
-//						int j = stmt.executeUpdate();
-//						System.out.println(j);
-//					
-//				}
-//					System.out.println("Registered Successfully.....");
-//					
-//					conn.close();
-//				    stmt.close();
-//					
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//    		}
- 		}		
- //    } 
- }  
+    			try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
+					PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERINFO(FULLNAME,USERNAME,PASSWORD)VALUES(?,?,?)");
+					System.out.println("Enter the number of Students");
+					int p1 = sc.nextInt();
+					for(int i=1;i<=p1;i++) {
+						//Scanner sc2= new Scanner(System.in);
+						String c2 = sc.nextLine();
+						String c3= sc.nextLine();
+						String c4 = sc.nextLine();
+					
+						stmt.setString(1, c2);
+						stmt.setString(2, c3);
+						stmt.setString(3, c4);
+						int j = stmt.executeUpdate();
+						System.out.println(j);
+					
+				}
+					System.out.println("Registered Successfully.....");
+					
+					conn.close();
+				    stmt.close();
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}		
+    	} 
+    		  
 
 	
 	
