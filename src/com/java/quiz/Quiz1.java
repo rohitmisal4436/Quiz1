@@ -13,26 +13,28 @@ import java.util.Scanner;
 import java.util.Set;
 public class Quiz1 {
 	
-	//This method check weather user have LogIn or Not 
-	//If not then user need to Register Here First
      void AddDetail() {
-    	 
-    	 System.out.println("LogIn here- Enter 1 ");
-    	 System.out.println("Register here- Enter 2");
-          for(int x=1;x<=2;x++) {
+    	
+    		 
+    	 System.out.println("LogIn Here     - Enter 1 ");
+    	 System.out.println("Register Here  - Enter 2");
+    	 for(int x=1;x<=2;x++) {
+    		System.out.println("Registerd Successfully , You can LogIn now");
     		Scanner sc = new Scanner(System.in);
     		int P =sc.nextInt();
     		if(P==1){
     			for(int n=1;n<5;n++) {
+    			 System.out.println("");
     			 System.out.println("Please Enter USERNAME");
 				 Scanner sc2=new Scanner(System.in);
 				 String username = sc2.nextLine();
 				 System.out.println("Please Enter password");
 				 Scanner sc3=new Scanner(System.in);
 				 String password = sc3.nextLine();
-    		
+    		     
     		
     				try {
+    					
    					Class.forName("com.mysql.cj.jdbc.Driver");
    					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
    					PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERINFO WHERE USERNAME LIKE ?");
@@ -45,25 +47,28 @@ public class Quiz1 {
    	   					if ((UI.equals(username)) && (PASS.equals(password))){
    	   					System.out.println("Successfully LogIn With Username :" + UI); 
    	   					System.out.println("  ");
-   	   					Random randomGenerator=new Random();
-   	   				     Random randNum = new Random();
-   	   			         Set set = new LinkedHashSet();
-   	   			         while (set.size() < 10) {
-   	   			         set.add(randNum.nextInt(10)+1);
+   	   					
+   	   					   Random randomGenerator=new Random();
+   	   				       Random randNum = new Random();
+   	   			           Set set = new LinkedHashSet();
+   	   			           while (set.size() < 10) {
+   	   			           set.add(randNum.nextInt(10)+1);
+   	   			         
    	   					} 
-   	   			      //   System.out.println("Random numbers with no duplicates = "+set);
+   	   			     
    	   			         
    	   			         System.out.println("Start Quiz");
    	   			         System.out.println("");
 	   			         Object[] objects = set.toArray();
 	   			         int Marks=0;
-	   			         for(int i=0;i<objects.length;i++) {    //length is the property of the array  
-	   			        	 //System.out.println(objects[i].toString());
+	   			         for(int i=0;i<objects.length;i++) {    
+	   			        	 
 	 	   			         Class.forName("com.mysql.cj.jdbc.Driver");
 	 	   			         Connection conn1=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
 	 	   			         PreparedStatement stmt1 = conn.prepareStatement("SELECT * FROM quiz WHERE Sr_No LIKE ?");
 	 	   			         stmt1.setString(1,(objects[i].toString()));
 	 	   			         ResultSet rs1 = stmt1.executeQuery();
+	 	   			         
 	 	   			         while(rs1.next()) {
 	 	   			        	String que = rs1.getString(2);
 	 	   			        	String op1 = rs1.getString(3);
@@ -84,22 +89,25 @@ public class Quiz1 {
 	 	   			        	
 	 	   			        	System.out.println("Your Answer : " + ans_user);
 	 	   			            System.out.println("Correct Answer : " + ans);
-	 	   			            System.out.println("");
+	 	   			           
 	 	   			            if(ans_user.equals(ans)) {
 	 	   			            	Marks++;
 	 	   			            }else {
 	 	   			            	System.out.println("");
-	 	   			            	System.out.println("Wrong Answer");
-	 	   			            }
+	 	   			            	System.out.println("Wrong Answer"); 	   			 	
+	 	   			            }	 
 	 	   			            
-	 	   			            
-	 	   			            
-	 	   			            System.out.println("................................................................................................................");
-
-	 	   			         }
+	 	   			            System.out.println("........................................................................................................................");    
+	 	   			        }
+	 	   			         
 	   			         }
+	   			         
+	   			         
+	   			         System.out.println("  ");
 	   			         System.out.println("Your score is  "+ Marks +"  out of 10");
+	   			         System.out.println("  ");
 	   			         String Grade = null;
+	   			         
 	   			         if(Marks>=8) {
 	   			        	 Grade = "A";
 	   			        	 System.out.println("You have get Class A");
@@ -112,12 +120,13 @@ public class Quiz1 {
 	   			         }else {
 	   			        	 Grade = "F";
 	   			        	 System.out.println("You failed to crack the Test");
-	   				}
+	   				     }
+	   			         
 	   			      Class.forName("com.mysql.cj.jdbc.Driver");
 	   			         Connection conn3=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
 	   			         PreparedStatement stmt3 = conn3.prepareStatement("INSERT INTO marksdetail(StudentName, USERNAME , MARKS , Out_Of , Grade) Values(?,?,?,?,?)");
 	   			            
-	   			             String outof = "10";
+	   			            String outof = "10";
 	   			             
 	   			         	stmt3.setString(1,NAME );
 	   			         	stmt3.setString(2, username);
@@ -126,29 +135,33 @@ public class Quiz1 {
 	   			         	stmt3.setString(5, Grade );	
 	   			         	
 	   			         	int K=stmt3.executeUpdate();
+	   			         	
+	   			         	
 	   			          conn3.close();
 	   			          stmt3.close();
 	   			         
 	   			         
 			
    	   					}else {
-   						System.out.println("Invalid Username,Passowrd OR Not A Registereg Candidate");
+   						System.out.println("Invalid User OR Register Here");
    	   					}
    	   					
-   					}
+   					 }
    					
     				 conn.close();
-    			}   				
+    			 }   				
     			     catch(Exception e) {
     				 e.printStackTrace();
     				 
-    			 }
+          }
     				
-    			}     
+       }     
     			}else {
     			
     			System.out.println("Register Here : ");
+    			
     			try {
+    				
 					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/quizdata","root","Rohit@4436");
 					PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERINFO(FULLNAME,USERNAME,PASSWORD)VALUES(?,?,?)");
@@ -156,10 +169,13 @@ public class Quiz1 {
 					int p1 = sc.nextInt();
 					for(int i=1;i<=p1;i++) {
 						Scanner sc2= new Scanner(System.in);
+						
 						System.out.println("User FULLNAME");
 						String c2 = sc2.nextLine();
+						
 						System.out.println("User USERNAME");
 						String c3= sc2.nextLine();
+						
 						System.out.println("User PASSWORD");
 						String c4 = sc2.nextLine();
 					
@@ -174,14 +190,14 @@ public class Quiz1 {
 					
 					conn.close();
 				    stmt.close();
+				    
 					
 				} catch (Exception e) {
-					
-					e.printStackTrace();
-					
+			      e.printStackTrace();
 				}
     		}		
-    	} 	  
+    	}
+    	 System.out.println(" E N D ");
     }	
 	
 	
